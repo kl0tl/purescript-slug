@@ -13,8 +13,6 @@ import Data.Argonaut.Decode (class DecodeJson, decodeJson)
 import Data.Array as Array
 import Data.Char.Unicode (isAlphaNum, isLatin1)
 import Data.Either (note)
-import Data.Generic.Rep (class Generic)
-import Data.Generic.Rep.Show (genericShow)
 import Data.Maybe (Maybe(..))
 import Data.String as String
 import Data.String.CodeUnits (fromCharArray, toCharArray)
@@ -31,13 +29,12 @@ import Data.String.Pattern (Pattern(..), Replacement(..))
 -- |
 -- | Example: `Slug "this-is-an-article-slug"`
 newtype Slug = Slug String
-derive instance genericSlug :: Generic Slug _
 derive instance eqSlug :: Eq Slug
 derive instance ordSlug :: Ord Slug
 derive newtype instance semigroupSlug :: Semigroup Slug
 
 instance showSlug :: Show Slug where
-  show = genericShow
+  show (Slug slug) = "(Slug " <> show slug <> ")"
 
 instance encodeJsonSlug :: EncodeJson Slug where
   encodeJson (Slug s) = encodeJson s
